@@ -13,7 +13,14 @@ const shopRoutes = require('./routes/shop');  // importing shop.js
 //parses URL-encoded form data into a JavaScript object and disables parsing of extended data structures.
 app.use(bodyParser.urlencoded({extended:false}));
 
-app.use(adminRoutes); 
+//filtering Paths
+app.use('/admin', adminRoutes); 
 app.use(shopRoutes);
 
+//gives 404 page for wrong /
+app.use((req, res, next) => {
+    res.status(404).send(`<h1>Page not found.</h1>`)
+});
+
 app.listen(3000);
+
