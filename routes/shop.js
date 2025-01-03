@@ -10,7 +10,8 @@ router.get('/', (req, res, next) => {
     //Path join basically detects the operating system you're running on and then automatically builds a correct path.
     //../ and this simply means go up one level,
     //so if it's up one level it's in the root folder then into views 
-    res.sendFile(path.join(__dirname,'../', 'views', 'shop.html')); 
+    // res.sendFile(path.join(__dirname,'../', 'views', 'shop.html')); 
+    res.render('shop');
     
 });
 
