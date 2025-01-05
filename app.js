@@ -4,10 +4,14 @@ const http = require('http');
 const express = require('express');
 
 const bodyParser = require('body-parser');
+const expressHbs = require('express-handlebars') //adding templating engine
 
 const app = express();
 
-app.set('view engine', 'pug'); //Set Pug as the templating engine
+app.engine('hbs', expressHbs());
+
+app.set('view engine', 'hbs');
+//app.set('view engine', 'pug'); //Set Pug as the templating engine
 app.set('views', './views'); // Set the views directory
 
 const adminData = require('./routes/admin');  // importing admin.js
