@@ -5,12 +5,18 @@ const path = require("path");
 
 // Define the Product class
 module.exports = class Product {
-  constructor(title) {
+  constructor(title, imgURL, price, description) {
     // Initialize the product with a title.
     this.title = title;
+    this.imgURL = imgURL;
+    this.price = price;
+    this.description = description;
   }
 
   save() {
+    //assigning a unique id when we save a product
+    this.id = Math.random().toString();
+
     //products.push(this);
     // Define the path to the JSON file where products are stored.
     const p = path.join(
