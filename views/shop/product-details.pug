@@ -1,0 +1,22 @@
+extends ../includes/navigation.pug
+
+block styles 
+  link(rel="stylesheet", href="../CSS/product.css")
+  link(rel="stylesheet", href="../CSS/form.css")
+
+block content
+  main.centered
+    h1.product__title #{product.title}
+    hr
+    div
+      img.product__imageURL(src=product.imageURL, alt=product.title)
+      h2.product.price #{product.price}
+      p.product.description #{product.description}
+      form(action='/cart' method='post')
+        button.btn(type="submit") Add to Cart 
+        input(type="hidden" name="productId" value=product.id)
+        //-in this form is we should simply pass some important information as part of the post request.
+         //-So add an input here with input type hidden so that it doesn't really get displayed on
+         //-the page but still is encoded in the request that is getting sent
+        
+         

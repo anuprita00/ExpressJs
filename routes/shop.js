@@ -16,16 +16,16 @@ router.get('/', shopController.getIndex
     //../ and this simply means go up one level,
     //so if it's up one level it's in the root folder then into views 
     // console.log(adminData.products);
-    // res.sendFile(path.join(__dirname,'../', 'views', 'shop.html')); 
+//     res.sendFile(path.join(__dirname,'../', 'views', 'shop.html')); 
 //     const products = adminData.products;
 //     res.render('shop',
 //         {prods: products, 
 //         pageTitle:'Shop', path:'/', 
 //         hasProduct: products.length > 0,
 //         activeShop: true,
-//     });
-    
+//     });   
 // }
+
 );
 
 router.get('/products', shopController.getProducts);
@@ -33,6 +33,8 @@ router.get('/products', shopController.getProducts);
 router.get('/products/:prodId', shopController.getProduct);
 
 router.get('/cart', shopController.getCart);
+
+router.post('/cart', shopController.postCart);
 
 router.get('/orders', shopController.getOrders);
 
