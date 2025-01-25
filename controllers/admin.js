@@ -1,25 +1,47 @@
 const Product = require("../models/product");
 
 exports.getAddProduct = (req, res, next) => {
-    res.render("admin/add-product", {
+    res.render("admin/edit-products", {
       pageTitle: "Add Product",
-      path: "admin/add-product",
-      activeProduct: true,
-      productCSS: true,
-      formCSS: true,
+      path: "admin/add-product", 
+      editing: false
     });
 };
-  
+ 
 exports.postAddProduct = (req, res) => {
     const title = req.body.title;
-    const imagrURL = req.body.imagrURL;
+    const imgURL = req.body.imgURL;
     const price = req.body.price;
     const description = req.body.description;
-
-    const product = new Product(title, imagrURL, price, description);
+    const product = new Product(title, imgURL, price, description);
     product.save();
-    // products.push({title: req.body.title}),
-    res.redirect("/");
+    res.redirect('/');   
+};
+
+//edit product
+// Controller function to handle requests to edit a product
+exports.getEditProduct = (req, res, next) => {
+    // Extract the 'edit' query parameter from the request
+    const editMode = req.query.edit;
+    // If 'edit' query parameter is not true, redirect to the home page
+    if (!editMode) {
+      return res.redirect('/');
+    }
+    // Extract the product ID from the route parameters
+    const prodId = req.params.productId;
+    // Find the product by its ID
+    Product.findById(prodId, product => {
+      // If no product is found with the given ID, redirect to the home page
+      if (!product) {
+        return res.redirect('/');
+      }
+      res.render('admin/edit-products', {
+        pageTitle: 'Edit Product',
+        path: '/admin/edit-products',
+        editing: editMode, // Indicates that the page is in edit mode
+        product: product // Passes the product details to the view for pre-population
+      });
+    });
 };
 
 exports.getProducts = (req, res, next) => {

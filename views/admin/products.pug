@@ -1,6 +1,6 @@
 extends ../includes/navigation.pug
 block styles 
-  link(rel="stylesheet", href="../CSS/product.css")
+  link(rel="stylesheet", href="/CSS/product.css")
 
 block content
     main
@@ -16,7 +16,7 @@ block content
                         h2.product__price $#{product.price}
                         p.product__description #{product.description}
                         .card_actions
-                           a.btn(href='/admin/edit-product') Edit
+                           a.btn(href=`/admin/edit-product/${product.id}?edit=true`) Edit
                            form(method='POST', action='/admin/delete-product')
                                button.btn(type='submit') Delete            
         else

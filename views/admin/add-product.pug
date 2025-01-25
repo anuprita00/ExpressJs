@@ -1,22 +1,22 @@
-extends ../includes/navigation.pug
-
-block styles
-    link(rel="stylesheet", href="/CSS/product.css")
-    link(rel="stylesheet", href="/CSS/form.css")
-
+extends ../layouts/main.pug
+ 
 block content
-    main
-        form.product-form(action="/admin/add-product" method="POST")
-            .form-control
-                label(for="text") Title
-                  input(type="text" name="title")#title
-            .form-control
-                label(for="imageURL") Image URL 
-                  input(type="text" name="imageURL")#imageURL
-            .form-control
-                label(for="price") Price
-                  input(type="number" name="price")#price
-            .form-control
-                label(for="description") Description
-                textarea(name="description" type="text" rows="5" )#description
-            button.btn(type="submit") Add Product
+ 
+  form.product-form(action=`/admin/` + (editing ? 'edit' : 'add') + `-product`, method="POST")
+    .form-control
+      label(for="title") Title
+      input(type="text", name="title", value=(editing ? product.title : ''))#title 
+    .form-control
+      label(for="imageUrl") Image URL
+      input(type="text", name="imageUrl", value=(editing ? product.imageUrl : ''))#imageUrl
+    .form-control
+      label(for="price") Price
+      input(type="text", name="price", value=(editing ? product.price : ''))#price
+    .form-control
+      label(for="description") Description
+      textarea(name="description")#description #{(editing ? product.description : '')}
+    button.btn(type="submit") #{(editing ? 'Edit' : 'Add')} Product
+    
+block styles
+  link(rel="stylesheet", href="/css/forms.css")
+  link(rel="stylesheet", href="/css/product.css")
