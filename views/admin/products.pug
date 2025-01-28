@@ -13,11 +13,13 @@ block content
                     div.card__image
                         img.product__imageURL(src=product.imageURL, alt=product.title)
                     div.card__content
-                        h2.product__price $#{product.price}
+                        h2.product__price $ #{product.price}
                         p.product__description #{product.description}
                         .card_actions
                            a.btn(href=`/admin/edit-product/${product.id}?edit=true`) Edit
                            form(method='POST', action='/admin/delete-product')
-                               button.btn(type='submit') Delete            
+                             input(type="hidden", value = product.id, name="productId")
+                             button.btn(type='submit') Delete            
         else
             h1 No Products
+             

@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
+const Cart = require('./cart');
+
 // const products = [];
 // Import required modules for file system operations and path management
 //const { getProduct } = require("../controllers/shop");
@@ -27,8 +29,9 @@ const getProductsFromFile = cb => {
 
 // Define the Product class
 module.exports = class Product {
-  constructor(title, imgURL, price, description) {
+  constructor(id, title, imgURL, price, description) {
     // Initialize the product with a title.
+    this.id = id,
     this.title = title;
     this.imgURL = imgURL;
     this.price = price;
@@ -37,12 +40,24 @@ module.exports = class Product {
 
   save() {
     //assigning a unique id when we save a product
-    this.id = Math.random().toString();
     getProductsFromFile(products => {
-      products.push(this);
-      fs.writeFile(p, JSON.stringify(products), err => {
+      if(this.id){
+        const existingProductIndex = products.findIndex(
+          prod => prod.id == this.id
+        );
+        const updatedProduct = [...products];
+        updatedProduct[existingProductIndex] = this;
+        fs.writeFile(p, JSON.stringify(updatedProduct), err => {
+          console.log(err);
+        });
+      } 
+      else{
+        this.id = Math.random().toString();
+        products.push(this);
+        fs.writeFile(p, JSON.stringify(products), err => {
         console.log(err);
       });
+      }  
     });
 
     // //products.push(this);
@@ -76,6 +91,25 @@ module.exports = class Product {
     // return products;
     getProductsFromFile(cb);
   }
+  
+  //delete 
+  static deleteById(id){
+     // Retrieve the list of products from the file
+    getProductsFromFile(products => {
+       // Find the product with the matching `id`
+      const product = products.find(prod => prod.id == id);
+       // Filter out the product with the given `id` to create an updated product list
+      const updatedProduct = products.filter(product => product.id != id);
+       // Write the updated product list back to the file
+      fs.writeFile(p, JSON.stringify(updatedProduct), err => {
+        if(!err){
+          // If there is no error in writing to the file, delete the product from the cart
+          // The `Cart.deleteProduct` method is called, passing the `id` and `product.price`
+          Cart.deleteProduct(id, product.price);
+        }
+      }) 
+    });
+  }
 
   // static findById(id, cb) { 
   //   getProductsFromFile(products => {
@@ -87,6 +121,7 @@ module.exports = class Product {
   //     cb(product);
   //   });
   // }
+
   static findById(id, cb) {
     getProductsFromFile(products => {
       const product = products.find(product => product.id == id);
